@@ -67,6 +67,4 @@ IF ($_OS == WINDOWS )THEN
 
     END_STRINGLN
 
-    
-
 END_IF
