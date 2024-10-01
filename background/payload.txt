@@ -1,5 +1,5 @@
 DEFINE #SCRIPTURL https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/background/background.ps1
-DEFINE #IMAGETURL https://www.continental-tires.com/adobe/dynamicmedia/deliver/dm-aid--b598c174-2024-490c-8db0-2ccb45fab848/continental-sustainability-strategicfields-greenoperations-16-9.jpg
+DEFINE #IMAGETURL https://picsum.photos/1920/1080
 
 GUI r
 DELAY 500
