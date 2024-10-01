@@ -1,4 +1,4 @@
-DEFINE #SCRIPTURL mouse.py
+DEFINE #SCRIPTURL https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/mouse/mouse.py
 
 GUI d
 DELAY 1000
