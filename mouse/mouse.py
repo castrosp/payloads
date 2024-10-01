@@ -4,6 +4,7 @@ try:
 except:
     os.system("pip install pyautogui")
     import pyautogui
+    
 import random
 import time
 
