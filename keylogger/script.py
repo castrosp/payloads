@@ -7,7 +7,7 @@ try:
     import logging
     import pyxhook
 except:
-    os.system("pip install daemon")
+    os.system("pip install python-daemon")
     os.system("pip install logging")
     os.system("pip install pyxhook")
     import daemon
