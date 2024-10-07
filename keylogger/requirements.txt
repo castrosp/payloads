@@ -16,3 +16,4 @@ sounddevice
 urllib3
 keyboard
 atexit
+ctypes
