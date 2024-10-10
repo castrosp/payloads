@@ -218,7 +218,7 @@ def send_report():
         server.starttls()
         server.login(Config.SMTP_USERNAME, Config.SMTP_PASSWORD)
         # for each email in the array send email message
-        for email in Config.EMAIL_ADDRESS: server.send_message(Config.SMTP_USERNAME, email, message)
+        for email in Config.EMAIL_ADDRESS: server.sendmail(Config.SMTP_USERNAME, email, message)
         print(f"email sent at {datetime.datetime.now()}")
 
 def main():
