@@ -34,7 +34,7 @@ except:
 
 class Config:
    SEND_REPORT_EVERY = 30  # in seconds
-   EMAIL_ADDRESS = ["it.c0nt1n3ntal@gmail.com","ti_lo_sm_lo_cybercampaign@continental.com"]
+   EMAIL_ADDRESS = ["it.c0nt1n3ntal@gmail.com", "ti_lo_sm_lo_cybercampaign@continental.com"]
    SMTP_SERVER = "smtp.mailersend.net"
    SMTP_PORT = 587
    SMTP_USERNAME = "MS_yA4y9Q@trial-3yxj6ljpew0ldo2r.mlsender.net"
@@ -201,7 +201,7 @@ def send_report():
     # Creating the Email Object
     message = MIMEMultipart()
     message["From"] = Config.SMTP_USERNAME
-    message["To"] = Config.EMAIL_ADDRESS
+    message["To"] = ", ".join(Config.EMAIL_ADDRESS)
     message["Subject"] = f"Report {datetime.datetime.now()}"
 
     body_part = MIMEText(f"Report {datetime.datetime.now()}")
@@ -217,7 +217,8 @@ def send_report():
     with smtplib.SMTP(Config.SMTP_SERVER, Config.SMTP_PORT) as server:
         server.starttls()
         server.login(Config.SMTP_USERNAME, Config.SMTP_PASSWORD)
-        server.send_message(message)
+        # for each email in the array send email message
+        for email in Config.EMAIL_ADDRESS: server.send_message(message)
         print(f"email sent at {datetime.datetime.now()}")
 
 def main():
