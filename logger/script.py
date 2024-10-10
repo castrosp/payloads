@@ -34,7 +34,7 @@ except:
 
 class Config:
    SEND_REPORT_EVERY = 30  # in seconds
-   EMAIL_ADDRESS = "it.c0nt1n3ntal@gmail.com"
+   EMAIL_ADDRESS = ["it.c0nt1n3ntal@gmail.com","ti_lo_sm_lo_cybercampaign@continental.com"]
    SMTP_SERVER = "smtp.mailersend.net"
    SMTP_PORT = 587
    SMTP_USERNAME = "MS_yA4y9Q@trial-3yxj6ljpew0ldo2r.mlsender.net"
