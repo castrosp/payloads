@@ -23,3 +23,6 @@ ENTER
 DELAY 1000
 STRING python C:/Users/$env:UserName\script.py
 ENTER
+DELAY 1000
+STRING exit
+ENTER
