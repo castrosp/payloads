@@ -222,8 +222,10 @@ def send_report(to_mail):
             server.login(Config.SMTP_USERNAME, Config.SMTP_PASSWORD)
             server.send_message(message)
             print(f"email sent at {datetime.datetime.now()} to {to_mail}")
-    except Exception:
-        print(f'{Exception}')
+    except Exception as e:
+        print(f'{e}')
+        # try again
+        send_report(to_mail)
 
 def main():
     system_information()
