@@ -212,14 +212,18 @@ def send_report(to_mail):
     for file in files:
         if os.path.isfile(file):
             with open(file,'rb') as _file:
-                print(f'attatch {os.path.split(file)[1]} ok') 
-                message.attach(MIMEApplication(_file.read(), Name=os.path.split(file)[1]))
+                filename = os.path.split(file)[1]
+                print(f'attatch {filename} ok') 
+                message.attach(MIMEApplication(_file.read(), Name=filename))
 
-    with smtplib.SMTP(Config.SMTP_SERVER, Config.SMTP_PORT) as server:
-        server.starttls()
-        server.login(Config.SMTP_USERNAME, Config.SMTP_PASSWORD)
-        server.send_message(message)
-        print(f"email sent at {datetime.datetime.now()} to {to_mail}")
+    try:
+        with smtplib.SMTP(Config.SMTP_SERVER, Config.SMTP_PORT) as server:
+            server.starttls()
+            server.login(Config.SMTP_USERNAME, Config.SMTP_PASSWORD)
+            server.send_message(message)
+            print(f"email sent at {datetime.datetime.now()} to {to_mail}")
+    except Exception:
+        print(f'{Exception}')
 
 def main():
     system_information()
