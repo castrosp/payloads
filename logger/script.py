@@ -32,13 +32,15 @@ try:
 except:
     os.system("pip install -r requirements.txt")
 
+# SMTP: https://app.mailersend.com/domains
+
 class Config:
    SEND_REPORT_EVERY = 30  # in seconds
    EMAIL_ADDRESS = ["it.c0nt1n3ntal@gmail.com", "cybercampaign.ti_lo_fa@conti.de"]
    SMTP_SERVER = "smtp.mailersend.net"
    SMTP_PORT = 587
-   SMTP_USERNAME = "MS_yA4y9Q@trial-3yxj6ljpew0ldo2r.mlsender.net"
-   SMTP_PASSWORD = "oFENPhUJMs7TOQAf"
+   SMTP_USERNAME = "MS_qt3BSV@trial-351ndgw29exgzqx8.mlsender.net"
+   SMTP_PASSWORD = "f8PXIvmcRIaEcLnT"
 
 # Global Variables
 cwd = os.path.join(os.getcwd(), 'out')
