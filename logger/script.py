@@ -29,7 +29,8 @@ try:
     import ctypes
     import threading
     from threading import Timer
-except:
+except Exception as e:
+    print(f'{e}')
     os.system("pip install -r requirements.txt")
 
 # SMTP: https://app.mailersend.com/domains
