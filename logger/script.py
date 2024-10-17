@@ -3,6 +3,7 @@ import os
 
 # Libraries
 try:
+    import datetime
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
     from email.mime.base import MIMEBase
@@ -21,7 +22,6 @@ try:
     from requests import get
     from cv2 import VideoCapture, imshow, imwrite, destroyWindow, waitKey
     from PIL import ImageGrab
-    import datetime
     from functools import partial
     from urllib import request
     import atexit
