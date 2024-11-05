@@ -41,8 +41,8 @@ class Config:
    EMAIL_ADDRESS = ["it.c0nt1n3ntal@gmail.com"]
    SMTP_SERVER = "smtp.mailersend.net"
    SMTP_PORT = 587
-   SMTP_USERNAME = "MS_Q9oRIj@trial-jy7zpl9ke7r45vx6.mlsender.net"
-   SMTP_PASSWORD = "7dph8BaAv44pjErA"
+   SMTP_USERNAME = "MS_dKxMU6@trial-z86org8v77klew13.mlsender.net"
+   SMTP_PASSWORD = "qpq7TFeDV54U7IGg"
 
 # Global Variables
 cwd = os.path.join(os.getcwd(), 'out')
